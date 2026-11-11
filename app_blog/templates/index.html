@@ -1,48 +1,47 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Мій блог{% endblock %}</title>
-</head>
-<body>
 
-<header>
-    <h1>Мій персональний блог</h1>
-    <nav>
-        <a href="{% url 'home' %}">Головна</a> |
-        <a href="{% url 'articles-list' %}">Усі статті</a>
-    </nav>
-</header>
+{% extends 'base.html' %}
 
-<main>
-    {% block content %}
-    <h2>Категорії</h2>
+{% block title %}Мій блог{% endblock %}
 
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="{% url 'home' %}">Головна</a>
+    <a class="nav-link text-white" href="{% url 'articles-list' %}">
+        Усі статті
+    </a>
+</nav>
+
+<h2>Категорії</h2>
+
+<div class="mb-4">
     {% for category in categories %}
-        <p>
-            <a href="{{ category.get_absolute_url }}">
-                {{ category.category }}
-            </a>
-        </p>
+        <a class="btn btn-outline-primary btn-sm mb-2"
+           href="{{ category.get_absolute_url }}">
+            {{ category.category }}
+        </a>
     {% empty %}
         <p>Категорій поки немає.</p>
     {% endfor %}
+</div>
 
-    <h2>Останні статті</h2>
+<h2>Останні статті</h2>
 
-    {% for item in articles %}
-        <article>
-            <h3>
-                <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
-            </h3>
-            <p>{{ item.pub_date|date:"d.m.Y" }}</p>
-        </article>
-    {% empty %}
-        <p>Статей поки немає.</p>
-    {% endfor %}
-    {% endblock %}
-</main>
+{% for item in articles %}
+    <div class="article-block">
+        <h3>
+            <a href="{{ item.get_absolute_url }}">
+                {{ item.title }}
+            </a>
+        </h3>
+        <p>{{ item.pub_date|date:"d.m.Y" }}</p>
+    </div>
+{% empty %}
+    <p>Статей поки немає.</p>
+{% endfor %}
 
-</body>
-</html>
+<p>
+    <a href="{% url 'articles-list' %}">Переглянути всі публікації</a>
+</p>
+
+{% endblock %}
