@@ -11,12 +11,20 @@ class Category(models.Model):
     )
     slug = models.SlugField('Слаг', default='')
 
+
     class Meta:
         verbose_name = 'Категорія для публікації'
         verbose_name_plural = 'Категорії для публікацій'
 
     def __str__(self):
         return self.category
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse(
+            'articles-category-list',
+            kwargs={'slug': self.slug}
+        )
 
 
 class Article(models.Model):

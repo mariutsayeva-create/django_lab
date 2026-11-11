@@ -2,9 +2,47 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Мій блог{% endblock %}</title>
 </head>
 <body>
-    Home page
+
+<header>
+    <h1>Мій персональний блог</h1>
+    <nav>
+        <a href="{% url 'home' %}">Головна</a> |
+        <a href="{% url 'articles-list' %}">Усі статті</a>
+    </nav>
+</header>
+
+<main>
+    {% block content %}
+    <h2>Категорії</h2>
+
+    {% for category in categories %}
+        <p>
+            <a href="{{ category.get_absolute_url }}">
+                {{ category.category }}
+            </a>
+        </p>
+    {% empty %}
+        <p>Категорій поки немає.</p>
+    {% endfor %}
+
+    <h2>Останні статті</h2>
+
+    {% for item in articles %}
+        <article>
+            <h3>
+                <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+            </h3>
+            <p>{{ item.pub_date|date:"d.m.Y" }}</p>
+        </article>
+    {% empty %}
+        <p>Статей поки немає.</p>
+    {% endfor %}
+    {% endblock %}
+</main>
+
 </body>
 </html>

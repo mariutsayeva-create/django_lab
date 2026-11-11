@@ -1,0 +1,25 @@
+{% extends "index.html" %}
+
+{% block content %}
+<h1>Усі статті</h1>
+
+{% for item in items %}
+    <article>
+        <h2>
+            <a href="{{ item.get_absolute_url }}">
+                {{ item.title }}
+            </a>
+        </h2>
+
+        <p>{{ item.pub_date|date:"d.m.Y" }}</p>
+
+        {% if item.images.all %}
+            <img src="{{ item.images.all.0.image.url }}" width="200">
+        {% endif %}
+
+        <p>{{ item.description|striptags|truncatewords_html:32|safe }}</p>
+    </article>
+{% empty %}
+    <p>Статей поки немає.</p>
+{% endfor %}
+{% endblock %}
